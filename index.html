@@ -33,17 +33,17 @@
   <title>Newtons Ai</title>
   <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body data-client_id="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="flutter_bootstrap.js" async></script>
   <script>
-    function initGapi() {
-      gapi.load('auth2', function() {
-        gapi.auth2.init({
-          client_id: '305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com', // Replace with your actual client ID
+    window.addEventListener('load', function () {
+      _flutter.loader.load().then(function (engineInitializer) {
+        engineInitializer.initializeEngine().then(function (appRunner) {
+          appRunner.runApp();
         });
       });
-    }
+    });
   </script>
-  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
