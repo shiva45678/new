@@ -39,12 +39,10 @@
   <script src="flutter.js" defer></script>
   <script>
     window.addEventListener('load', function () {
-      _flutter.loader.loadEntrypoint({
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
+      _flutter.loader.load().then(function(engineInitializer) {
+        engineInitializer.initializeEngine().then(function(appRunner) {
+          appRunner.runApp();
+        });
       });
     });
   </script>
