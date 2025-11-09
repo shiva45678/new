@@ -19,8 +19,29 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="google-signin-client_id" content="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
+  <!-- Optimize for high refresh rate and smooth scrolling -->
+  <!--
+    For Android devices, the browser typically manages the refresh rate automatically based on device capabilities.
+    The 'viewport-fit=cover' and 'maximum-scale=1.0, user-scalable=no' meta tags, along with
+    '-webkit-overflow-scrolling: touch' for iOS, contribute to a smoother experience across mobile devices.
+    Directly forcing a specific refresh rate (e.g., 120Hz) for web content from index.html is not
+    a standard web capability and is largely controlled by the browser and device OS.
+    Flutter, as a rendering engine, handles its own rendering loop for optimal performance.
+  -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-TileColor" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <style>
+    body {
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
