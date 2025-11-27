@@ -21,15 +21,7 @@
   <meta name="description" content="A new Flutter project.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="google-signin-client_id" content="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
-  <!-- Optimize for high refresh rate and smooth scrolling -->
-  <!--
-    For Android devices, the browser typically manages the refresh rate automatically based on device capabilities.
-    The 'viewport-fit=cover' and 'maximum-scale=1.0, user-scalable=no' meta tags, along with
-    '-webkit-overflow-scrolling: touch' for iOS, contribute to a smoother experience across mobile devices.
-    Directly forcing a specific refresh rate (e.g., 120Hz) for web content from index.html is not
-    a standard web capability and is largely controlled by the browser and device OS.
-    Flutter, as a rendering engine, handles its own rendering loop for optimal performance.
-  -->
+  
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#000000">
@@ -37,9 +29,58 @@
   <meta name="msapplication-navbutton-color" content="#000000">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
   <style>
     body {
       -webkit-overflow-scrolling: touch;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+    }
+
+    /* --- LOADING SCREEN STYLES --- */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #000000;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .loading-logo {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+    }
+
+    .loading-text {
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+      margin-bottom: 24px; /* Space between name and spinner */
+    }
+
+    .loader {
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 
@@ -56,19 +97,38 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body data-client_id="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
+  
+  <!-- --- LOADING INDICATOR HTML --- -->
+  <div id="loading_indicator" class="loading-container">
+    <img src="icons/Icon-192.png" alt="Newtons Ai Logo" class="loading-logo">
+    <h1 class="loading-text">Newtons Ai</h1>
+    <div class="loader"></div>
+  </div>
+
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="flutter.js" defer></script>
   <script>
     window.addEventListener('load', function () {
       if (!window._flutter) {
-  window._flutter = {};
-}
-_flutter.buildConfig = {"engineRevision":"18b71d647a292a980abb405ac7d16fe1f0b20434","builds":[{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"}]};
+        window._flutter = {};
+      }
+      _flutter.buildConfig = {"engineRevision":"18b71d647a292a980abb405ac7d16fe1f0b20434","builds":[{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"}]};
 
       _flutter.loader.load().then(function(engineInitializer) {
-        engineInitializer.initializeEngine().then(function(appRunner) {
-          appRunner.runApp();
-        });
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
+      }).then(function(app) {
+        // --- REMOVE LOADING INDICATOR ---
+        setTimeout(function() {
+          var loadingDiv = document.getElementById('loading_indicator');
+          if (loadingDiv) {
+            loadingDiv.style.opacity = '0';
+            setTimeout(function() {
+              loadingDiv.remove();
+            }, 500);
+          }
+        }, 200);
       });
     });
   </script>
