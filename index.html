@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -12,18 +13,21 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Clinical-grade AI for medical professionals. Empowering doctors, colleges, and institutions with advanced AI tools for enhanced learning, practice.">
+  <meta name="description"
+    content="Clinical-grade AI for medical professionals. Empowering doctors, colleges, and institutions with advanced AI tools for enhanced learning, practice.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="google-signin-client_id" content="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
-  
+  <meta name="google-signin-client_id"
+    content="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
+
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#000000">
   <meta name="msapplication-TileColor" content="#000000">
   <meta name="msapplication-navbutton-color" content="#000000">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
   <style>
     body {
       -webkit-overflow-scrolling: touch;
@@ -74,7 +78,9 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 
@@ -85,13 +91,14 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>Newtons Ai</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body data-client_id="305153837924-rbseqbohiq3bm0uh995cotoht5efpvfh.apps.googleusercontent.com">
-  
+
   <!-- --- LOADING INDICATOR HTML --- -->
   <div id="loading_indicator" class="loading-container">
     <img src="icons/Icon-192.png" alt="Newtons Ai Logo" class="loading-logo">
@@ -104,7 +111,7 @@
   <script src="flutter.js" defer></script>
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "608283911";
+    const serviceWorkerVersion = "800779132";
 
     window.addEventListener('load', function () {
       // Download main.dart.js
@@ -112,19 +119,19 @@
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
+        onEntrypointLoaded: function (engineInitializer) {
           // Initialize the engine
-          engineInitializer.initializeEngine().then(function(appRunner) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             // Run the app
             return appRunner.runApp();
-          }).then(function(app) {
+          }).then(function (app) {
             // --- APP STARTED: REMOVE LOADING INDICATOR ---
             // We add a small delay to ensure the first frame is painted
-            setTimeout(function() {
+            setTimeout(function () {
               var loadingDiv = document.getElementById('loading_indicator');
               if (loadingDiv) {
                 loadingDiv.style.opacity = '0';
-                setTimeout(function() {
+                setTimeout(function () {
                   loadingDiv.remove();
                 }, 500);
               }
@@ -133,6 +140,47 @@
         }
       });
     });
+
+    // --- MOBILE KEYBOARD DISMISS DETECTION ---
+    // Uses visualViewport API to detect when keyboard closes on mobile browsers
+    (function () {
+      if (window.visualViewport) {
+        var initialHeight = window.visualViewport.height;
+        var keyboardWasOpen = false;
+
+        window.visualViewport.addEventListener('resize', function () {
+          var currentHeight = window.visualViewport.height;
+
+          // If viewport height increased significantly (keyboard closed)
+          if (currentHeight > initialHeight * 0.85 && keyboardWasOpen) {
+            // Blur the active element to unfocus the text field
+            if (document.activeElement && document.activeElement.tagName === 'INPUT' ||
+              document.activeElement && document.activeElement.tagName === 'TEXTAREA' ||
+              document.activeElement && document.activeElement.getAttribute('contenteditable')) {
+              document.activeElement.blur();
+            }
+            // Also try to blur any flt-glass-pane elements (Flutter's canvas)
+            var flutterView = document.querySelector('flt-glass-pane');
+            if (flutterView && flutterView.shadowRoot) {
+              var activeEl = flutterView.shadowRoot.activeElement;
+              if (activeEl && activeEl.blur) {
+                activeEl.blur();
+              }
+            }
+            keyboardWasOpen = false;
+          } else if (currentHeight < initialHeight * 0.75) {
+            // Viewport shrunk significantly - keyboard is open
+            keyboardWasOpen = true;
+          }
+
+          // Update initial height on orientation changes
+          if (Math.abs(currentHeight - initialHeight) < 50 && !keyboardWasOpen) {
+            initialHeight = currentHeight;
+          }
+        });
+      }
+    })();
   </script>
 </body>
+
 </html>
